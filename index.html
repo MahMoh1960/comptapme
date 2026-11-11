@@ -31,7 +31,9 @@
                 <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium bg-gold text-navy whitespace-nowrap transition">Tableau de bord</button>
                 <button onclick="switchTab('journal')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Journal</button>
                 <button onclick="switchTab('balance')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Balance</button>
-                <button onclick="switchTab('tva')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Déclaration TVA</button>
+                <button onclick="switchTab('grandlivre')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Grand Livre</button>
+                <button onclick="switchTab('rapprochement')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Rapprochement</button>
+                <button onclick="switchTab('tva')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">TVA</button>
                 <button onclick="switchTab('bilan')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Bilan</button>
                 <button onclick="switchTab('cpc')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">CPC</button>
             </nav>
@@ -64,7 +66,7 @@
 
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h4 class="text-base font-bold mb-2 text-gold">Synthèse de Gestion & États Financiers</h4>
-                <p class="text-sm text-slate-300 mb-4 leading-relaxed">Application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour alimenter automatiquement la balance, la TVA, le bilan et le CPC.</p>
+                <p class="text-sm text-slate-300 mb-4 leading-relaxed">Application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour alimenter l'ensemble de vos états comptables.</p>
                 <div class="flex flex-wrap gap-3">
                     <button onclick="loadSampleData()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-600 text-xs font-semibold transition">Charger un exemple PME</button>
                     <button onclick="resetData()" class="bg-rose-900/60 text-rose-200 border border-rose-700 px-4 py-2 rounded shadow hover:bg-rose-800 text-xs font-semibold transition">Réinitialiser</button>
@@ -160,7 +162,58 @@
             </div>
         </section>
 
-        <!-- 4. DÉCLARATION TVA -->
+        <!-- 4. GRAND LIVRE INDIVIDUEL -->
+        <section id="tab-grandlivre" class="hidden space-y-6">
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <h3 class="text-base font-bold text-gold">Grand Livre par Compte</h3>
+                    <div class="w-full sm:w-auto">
+                        <select id="gl-account-select" onchange="renderGrandLivre()" class="bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white w-full sm:w-64">
+                            <!-- Rempli dynamiquement -->
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-900/50 text-slate-400 border-b border-slate-700 text-xs uppercase">
+                                <th class="p-3">Date</th>
+                                <th class="p-3">N° Pièce / Libellé</th>
+                                <th class="p-3 text-right">Débit (DH)</th>
+                                <th class="p-3 text-right">Crédit (DH)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gl-table-body" class="divide-y divide-slate-700"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. RAPPROCHEMENT BANCAIRE -->
+        <section id="tab-rapprochement" class="hidden space-y-6">
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 space-y-6">
+                <h3 class="text-base font-bold text-gold border-b border-slate-700 pb-2">État de Rapprochement Bancaire (Compte 5141 - Banque)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <label class="block text-xs text-slate-400 mb-1">Solde de la comptabilité (Compte 5141)</label>
+                        <input type="text" id="bank-compta-solde" readonly class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-lg font-bold text-white">
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <label class="block text-xs text-slate-400 mb-1">Solde selon le relevé bancaire externe (DH)</label>
+                        <input type="number" step="0.01" id="bank-ext-solde" oninput="calculateRapprochement()" placeholder="0.00" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-lg font-bold text-white">
+                    </div>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded border border-slate-700 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-slate-400">Écart constaté (Comptabilité vs Relevé)</p>
+                        <p class="text-xs text-slate-500">Un écart nul indique un rapprochement parfait.</p>
+                    </div>
+                    <h4 id="bank-ecart" class="text-xl font-bold text-emerald-400">0.00 DH</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. DÉCLARATION TVA -->
         <section id="tab-tva" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">État de Calcul de la TVA (Maroc)</h3>
@@ -178,11 +231,10 @@
                         <h4 id="tva-due" class="text-xl font-bold text-amber-400 mt-1">0.00 DH</h4>
                     </div>
                 </div>
-                <p class="text-xs text-slate-400 leading-relaxed">Note : La TVA due est calculée automatiquement par la différence entre la TVA facturée sur vos ventes et la TVA récupérable sur vos achats. Si le montant est positif, il s'agit d'une TVA due au Trésor Public.</p>
             </div>
         </section>
 
-        <!-- 5. BILAN -->
+        <!-- 7. BILAN -->
         <section id="tab-bilan" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Actif -->
@@ -226,7 +278,7 @@
             </div>
         </section>
 
-        <!-- 6. CPC -->
+        <!-- 8. CPC -->
         <section id="tab-cpc" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">Compte de Produits et Charges (CPC)</h3>
@@ -281,6 +333,8 @@
             event.target.classList.remove('text-slate-300', 'hover:bg-slate-800');
 
             if (tabId === 'balance') renderBalance();
+            if (tabId === 'grandlivre') initGrandLivreSelect();
+            if (tabId === 'rapprochement') renderRapprochement();
             if (tabId === 'tva') renderTVA();
             if (tabId === 'bilan') renderBilan();
             if (tabId === 'cpc') renderCPC();
@@ -375,18 +429,78 @@
             });
         }
 
+        function initGrandLivreSelect() {
+            const select = document.getElementById('gl-account-select');
+            let balances = getAccountBalances();
+            let keys = Object.keys(balances).sort();
+            select.innerHTML = '';
+            if (keys.length === 0) {
+                select.innerHTML = `<option value="">Aucun compte disponible</option>`;
+                document.getElementById('gl-table-body').innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Aucune donnée.</td></tr>`;
+                return;
+            }
+            keys.forEach(acc => {
+                let opt = document.createElement('option');
+                opt.value = acc;
+                opt.innerText = `${acc} - ${accountNames[acc] || 'Compte Divers'}`;
+                select.appendChild(opt);
+            });
+            renderGrandLivre();
+        }
+
+        function renderGrandLivre() {
+            const accSelect = document.getElementById('gl-account-select').value;
+            const tbody = document.getElementById('gl-table-body');
+            tbody.innerHTML = '';
+            if (!accSelect) return;
+
+            let filtered = entries.filter(i => i.account === accSelect);
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Aucun mouvement pour ce compte.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-700/30";
+                tr.innerHTML = `
+                    <td class="p-3 text-slate-300">${item.date}</td>
+                    <td class="p-3 text-slate-300">${item.ref}</td>
+                    <td class="p-3 text-right text-slate-300">${item.type === 'debit' ? item.amount.toFixed(2) : '-'}</td>
+                    <td class="p-3 text-right text-slate-300">${item.type === 'credit' ? item.amount.toFixed(2) : '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderRapprochement() {
+            let balances = getAccountBalances();
+            let banqDebit = balances['5141'] ? balances['5141'].debit : 0;
+            let banqCredit = balances['5141'] ? balances['5141'].credit : 0;
+            let soldeCompta = banqDebit - banqCredit;
+
+            document.getElementById('bank-compta-solde').value = soldeCompta.toFixed(2) + ' DH';
+            calculateRapprochement();
+        }
+
+        function calculateRapprochement() {
+            let balances = getAccountBalances();
+            let banqDebit = balances['5141'] ? balances['5141'].debit : 0;
+            let banqCredit = balances['5141'] ? balances['5141'].credit : 0;
+            let soldeCompta = banqDebit - banqCredit;
+
+            let soldeExt = parseFloat(document.getElementById('bank-ext-solde').value) || 0;
+            let ecart = soldeCompta - soldeExt;
+
+            const ecartEl = document.getElementById('bank-ecart');
+            ecartEl.innerText = ecart.toFixed(2) + ' DH';
+            ecartEl.className = `text-xl font-bold ${Math.abs(ecart) < 0.01 ? 'text-emerald-400' : 'text-rose-400'}`;
+        }
+
         function renderTVA() {
             const balances = getAccountBalances();
-            let tvaCollectee = 0;
-            let tvaRecuperable = 0;
-
-            if (balances['4456']) {
-                tvaCollectee = balances['4456'].credit - balances['4456'].debit;
-            }
-            if (balances['3455']) {
-                tvaRecuperable = balances['3455'].debit - balances['3455'].credit;
-            }
-
+            let tvaCollectee = balances['4456'] ? (balances['4456'].credit - balances['4456'].debit) : 0;
+            let tvaRecuperable = balances['3455'] ? (balances['3455'].debit - balances['3455'].credit) : 0;
             let tvaDue = tvaCollectee - tvaRecuperable;
 
             document.getElementById('tva-collectee').innerText = tvaCollectee.toFixed(2) + ' DH';
@@ -399,10 +513,8 @@
 
         function renderBilan() {
             const balances = getAccountBalances();
-            let actifTotal = 0;
-            let passifTotal = 0;
-            let actifHTML = '';
-            let passifHTML = '';
+            let actifTotal = 0, passifTotal = 0;
+            let actifHTML = '', passifHTML = '';
 
             for (let acc in balances) {
                 let d = balances[acc].debit;
@@ -424,8 +536,7 @@
                 }
             }
 
-            let totalProd = 0;
-            let totalChg = 0;
+            let totalProd = 0, totalChg = 0;
             for (let acc in balances) {
                 if (acc.startsWith('7')) totalProd += (balances[acc].credit - balances[acc].debit);
                 if (acc.startsWith('6')) totalChg += (balances[acc].debit - balances[acc].credit);
@@ -444,8 +555,7 @@
 
         function renderCPC() {
             const balances = getAccountBalances();
-            let totalProd = 0;
-            let totalChg = 0;
+            let totalProd = 0, totalChg = 0;
             let cpcHTML = '';
 
             for (let acc in balances) {
@@ -461,7 +571,7 @@
                 }
             }
 
-            document.getElementById('cpc-body').innerHTML = cpcHTML || `<tr><td colspan="2" class="p-4 text-center text-slate-400">Aucune opération de gestion (Classes 6 et 7).</td></tr>`;
+            document.getElementById('cpc-body').innerHTML = cpcHTML || `<tr><td colspan="2" class="p-4 text-center text-slate-400">Aucune opération de gestion.</td></tr>`;
             let net = totalProd - totalChg;
             const resEl = document.getElementById('cpc-net-result');
             resEl.innerText = net.toFixed(2) + ' DH';
@@ -494,7 +604,7 @@
                 { id: 8, date: '2026-01-10', ref: 'BL02', account: '4456', type: 'credit', amount: 9600 }
             ];
             saveAndRefresh();
-            alert('Exemple PME avec TVA chargé avec succès !');
+            alert('Exemple PME chargé avec succès !');
         }
 
         function resetData() {
