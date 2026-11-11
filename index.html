@@ -7,82 +7,87 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1b2a">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .bg-navy { background-color: #0d1b2a; }
         .text-gold { color: #e0a96d; }
         .border-gold { border-color: #e0a96d; }
+        /* Masquer la barre de défilement pour un design plus propre sur mobile */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
 
     <!-- En-tête -->
-    <header class="bg-navy text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="text-2xl font-bold text-gold">📊 ComptaMaroc PME</span>
-                <span class="text-xs bg-gold text-navy px-2 py-1 rounded font-semibold">Plan Comptable Marocain</span>
+    <header class="bg-navy border-b border-slate-800 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl font-bold text-gold">📊 ComptaMaroc PME</span>
+                </div>
+                <span class="text-[10px] bg-gold/20 text-gold border border-gold/40 px-2 py-0.5 rounded font-semibold">PCM Maroc</span>
             </div>
-            <nav class="flex space-x-2 mt-3 md:mt-0 overflow-x-auto">
-                <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-2 rounded text-sm font-medium bg-gold text-navy transition">Tableau de bord</button>
-                <button onclick="switchTab('journal')" class="tab-btn px-3 py-2 rounded text-sm font-medium hover:bg-slate-800 transition">Journal</button>
-                <button onclick="switchTab('balance')" class="tab-btn px-3 py-2 rounded text-sm font-medium hover:bg-slate-800 transition">Balance</button>
-                <button onclick="switchTab('bilan')" class="tab-btn px-3 py-2 rounded text-sm font-medium hover:bg-slate-800 transition">Bilan</button>
-                <button onclick="switchTab('cpc')" class="tab-btn px-3 py-2 rounded text-sm font-medium hover:bg-slate-800 transition">CPC</button>
+            <!-- Navigation optimisée avec scroll horizontal sur mobile -->
+            <nav class="flex space-x-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
+                <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium bg-gold text-navy whitespace-nowrap transition">Tableau de bord</button>
+                <button onclick="switchTab('journal')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Journal</button>
+                <button onclick="switchTab('balance')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Balance</button>
+                <button onclick="switchTab('bilan')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Bilan</button>
+                <button onclick="switchTab('cpc')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">CPC</button>
             </nav>
         </div>
     </header>
 
     <!-- Contenu Principal -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
 
         <!-- 1. TABLEAU DE BORD -->
         <section id="tab-dashboard" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-600">
-                    <p class="text-sm text-slate-500">Total Débit</p>
-                    <h3 id="stat-debit" class="text-2xl font-bold">0.00 DH</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-800 p-4 rounded-xl shadow border-l-4 border-blue-500">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Total Débit</p>
+                    <h3 id="stat-debit" class="text-2xl font-bold text-white mt-1">0.00 DH</h3>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-emerald-600">
-                    <p class="text-sm text-slate-500">Total Crédit</p>
-                    <h3 id="stat-credit" class="text-2xl font-bold">0.00 DH</h3>
+                <div class="bg-slate-800 p-4 rounded-xl shadow border-l-4 border-emerald-500">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Total Crédit</p>
+                    <h3 id="stat-credit" class="text-2xl font-bold text-white mt-1">0.00 DH</h3>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-amber-600">
-                    <p class="text-sm text-slate-500">Produits (Classe 7)</p>
-                    <h3 id="stat-produits" class="text-2xl font-bold">0.00 DH</h3>
+                <div class="bg-slate-800 p-4 rounded-xl shadow border-l-4 border-amber-500">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Produits (Classe 7)</p>
+                    <h3 id="stat-produits" class="text-2xl font-bold text-white mt-1">0.00 DH</h3>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-rose-600">
-                    <p class="text-sm text-slate-500">Charges (Classe 6)</p>
-                    <h3 id="stat-charges" class="text-2xl font-bold">0.00 DH</h3>
+                <div class="bg-slate-800 p-4 rounded-xl shadow border-l-4 border-rose-500">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Charges (Classe 6)</p>
+                    <h3 id="stat-charges" class="text-2xl font-bold text-white mt-1">0.00 DH</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow">
-                <h4 class="text-lg font-bold mb-4 text-navy">Synthèse de Gestion & États Financiers</h4>
-                <p class="text-slate-600 mb-4">Bienvenue sur votre application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour générer automatiquement la balance, le bilan et le CPC.</p>
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                <h4 class="text-base font-bold mb-2 text-gold">Synthèse de Gestion & États Financiers</h4>
+                <p class="text-sm text-slate-300 mb-4 leading-relaxed">Application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour alimenter automatiquement la balance, le bilan et le CPC.</p>
                 <div class="flex flex-wrap gap-3">
-                    <button onclick="loadSampleData()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-800 text-sm">Charger un exemple PME</button>
-                    <button onclick="resetData()" class="bg-rose-600 text-white px-4 py-2 rounded shadow hover:bg-rose-700 text-sm">Réinitialiser les données</button>
+                    <button onclick="loadSampleData()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-600 text-xs font-semibold transition">Charger un exemple PME</button>
+                    <button onclick="resetData()" class="bg-rose-900/60 text-rose-200 border border-rose-700 px-4 py-2 rounded shadow hover:bg-rose-800 text-xs font-semibold transition">Réinitialiser</button>
                 </div>
             </div>
         </section>
 
         <!-- 2. JOURNAL DES ÉCRITURES -->
         <section id="tab-journal" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow">
-                <h3 class="text-lg font-bold mb-4 text-navy">Saisir une écriture comptable</h3>
-                <form id="entry-form" onsubmit="addEntry(event)" class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                <h3 class="text-base font-bold mb-4 text-gold">Saisir une écriture comptable</h3>
+                <form id="entry-form" onsubmit="addEntry(event)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Date</label>
-                        <input type="date" id="entry-date" required class="w-full border rounded p-2 text-sm">
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Date</label>
+                        <input type="date" id="entry-date" required class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">N° Pièce / Libellé</label>
-                        <input type="text" id="entry-ref" placeholder="Ex: FTV001" required class="w-full border rounded p-2 text-sm">
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">N° Pièce / Libellé</label>
+                        <input type="text" id="entry-ref" placeholder="Ex: FTV001" required class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Compte (PCM)</label>
-                        <select id="entry-account" class="w-full border rounded p-2 text-sm">
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Compte (PCM)</label>
+                        <select id="entry-account" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                             <option value="2110">2110 - Frais préliminaires</option>
                             <option value="3111">3111 - Marchandises</option>
                             <option value="3421">3421 - Clients</option>
@@ -96,27 +101,27 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Sens</label>
-                        <select id="entry-type" class="w-full border rounded p-2 text-sm">
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Sens</label>
+                        <select id="entry-type" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                             <option value="debit">Débit</option>
                             <option value="credit">Crédit</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Montant (DH)</label>
-                        <input type="number" step="0.01" id="entry-amount" placeholder="0.00" required class="w-full border rounded p-2 text-sm">
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Montant (DH)</label>
+                        <input type="number" step="0.01" id="entry-amount" placeholder="0.00" required class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                     </div>
                     <div class="flex items-end">
-                        <button type="submit" class="w-full bg-navy text-gold font-bold py-2 rounded text-sm hover:bg-slate-900">Ajouter</button>
+                        <button type="submit" class="w-full bg-gold text-navy font-bold py-2 rounded text-sm hover:bg-amber-500 transition">Ajouter</button>
                     </div>
                 </form>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow overflow-x-auto">
-                <h3 class="text-lg font-bold mb-4 text-navy">Journal Général</h3>
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 overflow-x-auto">
+                <h3 class="text-base font-bold mb-4 text-gold">Journal Général</h3>
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
-                        <tr class="bg-slate-100 border-b">
+                        <tr class="bg-slate-900/50 text-slate-400 border-b border-slate-700 text-xs uppercase">
                             <th class="p-3">Date</th>
                             <th class="p-3">Pièce/Libellé</th>
                             <th class="p-3">Compte</th>
@@ -125,23 +130,21 @@
                             <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="journal-table-body">
-                        <!-- Rempli dynamiquement -->
-                    </tbody>
+                    <tbody id="journal-table-body" class="divide-y divide-slate-700"></tbody>
                 </table>
             </div>
         </section>
 
         <!-- 3. BALANCE DES COMPTES -->
         <section id="tab-balance" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow overflow-x-auto">
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 overflow-x-auto">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-navy">Balance Générale des Comptes</h3>
-                    <button onclick="exportCSV('balance')" class="bg-emerald-600 text-white px-3 py-1.5 rounded text-xs">Exporter CSV</button>
+                    <h3 class="text-base font-bold text-gold">Balance Générale des Comptes</h3>
+                    <button onclick="exportCSV('balance')" class="bg-emerald-700 text-white px-3 py-1.5 rounded text-xs hover:bg-emerald-600 transition">Exporter CSV</button>
                 </div>
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
-                        <tr class="bg-slate-100 border-b">
+                        <tr class="bg-slate-900/50 text-slate-400 border-b border-slate-700 text-xs uppercase">
                             <th class="p-3">Compte</th>
                             <th class="p-3">Intitulé</th>
                             <th class="p-3 text-right">Total Débit</th>
@@ -150,7 +153,7 @@
                             <th class="p-3 text-right">Solde Créditeur</th>
                         </tr>
                     </thead>
-                    <tbody id="balance-table-body"></tbody>
+                    <tbody id="balance-table-body" class="divide-y divide-slate-700"></tbody>
                 </table>
             </div>
         </section>
@@ -159,39 +162,39 @@
         <section id="tab-bilan" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Actif -->
-                <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-lg font-bold mb-4 text-navy border-b pb-2">BILAN - ACTIF</h3>
+                <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                    <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">BILAN - ACTIF</h3>
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="text-slate-500 border-b">
+                            <tr class="text-slate-400 border-b border-slate-700 text-xs uppercase">
                                 <th class="pb-2 text-left">Poste / Actif</th>
                                 <th class="pb-2 text-right">Montant (DH)</th>
                             </tr>
                         </thead>
-                        <tbody id="bilan-actif-body"></tbody>
+                        <tbody id="bilan-actif-body" class="divide-y divide-slate-700/50"></tbody>
                         <tfoot>
-                            <tr class="font-bold border-t bg-slate-50">
-                                <td class="p-2">Total Actif</td>
-                                <td id="total-actif" class="p-2 text-right">0.00</td>
+                            <tr class="font-bold border-t border-slate-700 bg-slate-900/40">
+                                <td class="p-3">Total Actif</td>
+                                <td id="total-actif" class="p-3 text-right text-gold">0.00</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <!-- Passif -->
-                <div class="bg-white p-6 rounded-xl shadow">
-                    <h3 class="text-lg font-bold mb-4 text-navy border-b pb-2">BILAN - PASSIF</h3>
+                <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                    <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">BILAN - PASSIF</h3>
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="text-slate-500 border-b">
+                            <tr class="text-slate-400 border-b border-slate-700 text-xs uppercase">
                                 <th class="pb-2 text-left">Poste / Passif</th>
                                 <th class="pb-2 text-right">Montant (DH)</th>
                             </tr>
                         </thead>
-                        <tbody id="bilan-passif-body"></tbody>
+                        <tbody id="bilan-passif-body" class="divide-y divide-slate-700/50"></tbody>
                         <tfoot>
-                            <tr class="font-bold border-t bg-slate-50">
-                                <td class="p-2">Total Passif</td>
-                                <td id="total-passif" class="p-2 text-right">0.00</td>
+                            <tr class="font-bold border-t border-slate-700 bg-slate-900/40">
+                                <td class="p-3">Total Passif</td>
+                                <td id="total-passif" class="p-3 text-right text-gold">0.00</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -201,18 +204,18 @@
 
         <!-- 5. CPC -->
         <section id="tab-cpc" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow">
-                <h3 class="text-lg font-bold mb-4 text-navy border-b pb-2">Compte de Produits et Charges (CPC)</h3>
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">Compte de Produits et Charges (CPC)</h3>
                 <table class="w-full text-sm">
                     <thead>
-                        <tr class="bg-slate-100 border-b">
+                        <tr class="bg-slate-900/50 text-slate-400 border-b border-slate-700 text-xs uppercase">
                             <th class="p-3 text-left">Opérations</th>
                             <th class="p-3 text-right">Exercice</th>
                         </tr>
                     </thead>
-                    <tbody id="cpc-body"></tbody>
+                    <tbody id="cpc-body" class="divide-y divide-slate-700/50"></tbody>
                     <tfoot>
-                        <tr id="cpc-result-row" class="font-bold border-t text-base">
+                        <tr id="cpc-result-row" class="font-bold border-t border-slate-700 text-base bg-slate-900/40">
                             <td class="p-3">Résultat Net de l'Exercice</td>
                             <td id="cpc-net-result" class="p-3 text-right">0.00 DH</td>
                         </tr>
@@ -246,10 +249,10 @@
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-gold', 'text-navy');
-                btn.classList.add('hover:bg-slate-800');
+                btn.classList.add('text-slate-300', 'hover:bg-slate-800');
             });
             event.target.classList.add('bg-gold', 'text-navy');
-            event.target.classList.remove('hover:bg-slate-800');
+            event.target.classList.remove('text-slate-300', 'hover:bg-slate-800');
 
             if (tabId === 'balance') renderBalance();
             if (tabId === 'bilan') renderBilan();
@@ -291,14 +294,14 @@
             }
             entries.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.className = "border-b hover:bg-slate-50";
+                tr.className = "hover:bg-slate-700/30 transition";
                 tr.innerHTML = `
-                    <td class="p-3">${item.date}</td>
-                    <td class="p-3">${item.ref}</td>
-                    <td class="p-3">${item.account} - ${accountNames[item.account] || ''}</td>
-                    <td class="p-3 text-right">${item.type === 'debit' ? item.amount.toFixed(2) : '-'}</td>
-                    <td class="p-3 text-right">${item.type === 'credit' ? item.amount.toFixed(2) : '-'}</td>
-                    <td class="p-3 text-center"><button onclick="deleteEntry(${item.id})" class="text-rose-600 hover:text-rose-800 font-bold">×</button></td>
+                    <td class="p-3 text-slate-300">${item.date}</td>
+                    <td class="p-3 text-slate-300">${item.ref}</td>
+                    <td class="p-3 text-slate-300">${item.account} - ${accountNames[item.account] || ''}</td>
+                    <td class="p-3 text-right text-slate-300">${item.type === 'debit' ? item.amount.toFixed(2) : '-'}</td>
+                    <td class="p-3 text-right text-slate-300">${item.type === 'credit' ? item.amount.toFixed(2) : '-'}</td>
+                    <td class="p-3 text-center"><button onclick="deleteEntry(${item.id})" class="text-rose-400 hover:text-rose-200 font-bold px-2 py-1">×</button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -332,14 +335,14 @@
                 let soldeCred = c > d ? (c - d).toFixed(2) : '0.00';
 
                 const tr = document.createElement('tr');
-                tr.className = "border-b";
+                tr.className = "hover:bg-slate-700/30 transition";
                 tr.innerHTML = `
-                    <td class="p-3 font-semibold">${acc}</td>
-                    <td class="p-3">${accountNames[acc] || 'Compte Divers'}</td>
-                    <td class="p-3 text-right">${d.toFixed(2)}</td>
-                    <td class="p-3 text-right">${c.toFixed(2)}</td>
-                    <td class="p-3 text-right font-medium text-blue-700">${soldeDeb}</td>
-                    <td class="p-3 text-right font-medium text-emerald-700">${soldeCred}</td>
+                    <td class="p-3 font-semibold text-slate-200">${acc}</td>
+                    <td class="p-3 text-slate-300">${accountNames[acc] || 'Compte Divers'}</td>
+                    <td class="p-3 text-right text-slate-300">${d.toFixed(2)}</td>
+                    <td class="p-3 text-right text-slate-300">${c.toFixed(2)}</td>
+                    <td class="p-3 text-right font-medium text-blue-400">${soldeDeb}</td>
+                    <td class="p-3 text-right font-medium text-emerald-400">${soldeCred}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -349,7 +352,6 @@
             const balances = getAccountBalances();
             let actifTotal = 0;
             let passifTotal = 0;
-
             let actifHTML = '';
             let passifHTML = '';
 
@@ -358,24 +360,21 @@
                 let c = balances[acc].credit;
                 let solde = d - c;
 
-                // Classe 2 (Immo) & Classe 3 (Actif circulant) & Classe 5 (Trésorerie active si solde > 0)
                 if (acc.startsWith('2') || acc.startsWith('3') || (acc.startsWith('5') && solde > 0)) {
                     if (solde > 0) {
                         actifTotal += solde;
-                        actifHTML += `<tr class="border-b"><td class="p-2">${acc} - ${accountNames[acc]||''}</td><td class="p-2 text-right">${solde.toFixed(2)}</td></tr>`;
+                        actifHTML += `<tr class="hover:bg-slate-700/30"><td class="p-3 text-slate-300">${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-slate-300">${solde.toFixed(2)}</td></tr>`;
                     }
                 }
-                // Classe 1 (Financement permanent) & Classe 4 (Passif circulant) & Classe 5 (Trésorerie passive si solde < 0)
                 if (acc.startsWith('1') || acc.startsWith('4') || (acc.startsWith('5') && c > d)) {
                     let pSolde = c - d;
                     if (pSolde > 0) {
                         passifTotal += pSolde;
-                        passifHTML += `<tr class="border-b"><td class="p-2">${acc} - ${accountNames[acc]||''}</td><td class="p-2 text-right">${pSolde.toFixed(2)}</td></tr>`;
+                        passifHTML += `<tr class="hover:bg-slate-700/30"><td class="p-3 text-slate-300">${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-slate-300">${pSolde.toFixed(2)}</td></tr>`;
                     }
                 }
             }
 
-            // Calcul Résultat Net pour équilibre Bilan
             let totalProd = 0;
             let totalChg = 0;
             for (let acc in balances) {
@@ -385,11 +384,11 @@
             let resultatNet = totalProd - totalChg;
             if (resultatNet !== 0) {
                 passifTotal += resultatNet;
-                passifHTML += `<tr class="border-b bg-amber-50 font-semibold"><td class="p-2">Résultat Net (bénéfice/perte)</td><td class="p-2 text-right">${resultatNet.toFixed(2)}</td></tr>`;
+                passifHTML += `<tr class="hover:bg-slate-700/30 bg-amber-950/20 font-semibold"><td class="p-3 text-amber-200">Résultat Net</td><td class="p-3 text-right text-amber-200">${resultatNet.toFixed(2)}</td></tr>`;
             }
 
-            document.getElementById('bilan-actif-body').innerHTML = actifHTML || `<tr><td colspan="2" class="p-3 text-slate-400">Aucun actif.</td></tr>`;
-            document.getElementById('bilan-passif-body').innerHTML = passifHTML || `<tr><td colspan="2" class="p-3 text-slate-400">Aucun passif.</td></tr>`;
+            document.getElementById('bilan-actif-body').innerHTML = actifHTML || `<tr><td colspan="2" class="p-4 text-slate-400">Aucun actif.</td></tr>`;
+            document.getElementById('bilan-passif-body').innerHTML = passifHTML || `<tr><td colspan="2" class="p-4 text-slate-400">Aucun passif.</td></tr>`;
             document.getElementById('total-actif').innerText = actifTotal.toFixed(2) + ' DH';
             document.getElementById('total-passif').innerText = passifTotal.toFixed(2) + ' DH';
         }
@@ -404,12 +403,12 @@
                 if (acc.startsWith('6')) {
                     let m = balances[acc].debit - balances[acc].credit;
                     totalChg += m;
-                    cpcHTML += `<tr class="border-b"><td class="p-3">Charge: ${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-rose-600">${m.toFixed(2)}</td></tr>`;
+                    cpcHTML += `<tr class="hover:bg-slate-700/30"><td class="p-3 text-slate-300">Charge: ${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-rose-400">${m.toFixed(2)}</td></tr>`;
                 }
                 if (acc.startsWith('7')) {
                     let m = balances[acc].credit - balances[acc].debit;
                     totalProd += m;
-                    cpcHTML += `<tr class="border-b"><td class="p-3">Produit: ${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-emerald-600">${m.toFixed(2)}</td></tr>`;
+                    cpcHTML += `<tr class="hover:bg-slate-700/30"><td class="p-3 text-slate-300">Produit: ${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-emerald-400">${m.toFixed(2)}</td></tr>`;
                 }
             }
 
@@ -417,7 +416,7 @@
             let net = totalProd - totalChg;
             const resEl = document.getElementById('cpc-net-result');
             resEl.innerText = net.toFixed(2) + ' DH';
-            resEl.className = `p-3 text-right ${net >= 0 ? 'text-emerald-700' : 'text-rose-700'}`;
+            resEl.className = `p-3 text-right ${net >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
         }
 
         function updateDashboard() {
