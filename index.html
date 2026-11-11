@@ -30,7 +30,7 @@
                 <div class="flex items-center space-x-3">
                     <span class="text-xl font-bold text-gold">📊 ComptaMaroc PME</span>
                 </div>
-                <span class="text-[10px] bg-gold/20 text-gold border border-gold/40 px-2 py-0.5 rounded font-semibold">PCM Maroc</span>
+                <span class="text-[10px] bg-gold/20 text-gold border border-gold/40 px-2 py-0.5 rounded font-semibold">PCM Maroc étendu</span>
             </div>
             <!-- Navigation optimisée avec scroll horizontal -->
             <nav class="flex space-x-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
@@ -73,8 +73,8 @@
 
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h4 class="text-base font-bold mb-2 text-gold">Synthèse & États Financiers (CGNC)</h4>
-                    <p class="text-sm text-slate-300 leading-relaxed">Gérez votre comptabilité générale, générez vos états, calculez vos amortissements et exportez vos documents en un clic.</p>
+                    <h4 class="text-base font-bold mb-2 text-gold">Plan Comptable Marocain Étendu</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">Toutes les classes (1 à 7) sont désormais disponibles pour saisir vos opérations courantes et d'inventaire.</p>
                 </div>
                 <div class="flex flex-wrap gap-3">
                     <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-500 text-xs font-semibold transition">📄 Imprimer / Exporter PDF</button>
@@ -100,21 +100,7 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Compte (PCM)</label>
                         <select id="entry-account" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
-                            <option value="1111">1111 - Capital social</option>
-                            <option value="2110">2110 - Frais préliminaires</option>
-                            <option value="2355">2355 - Matériel informatique</option>
-                            <option value="2835">2835 - Amort. du matériel informatique</option>
-                            <option value="3111">3111 - Marchandises</option>
-                            <option value="3421">3421 - Clients</option>
-                            <option value="3455">3455 - État - TVA récupérable</option>
-                            <option value="4411">4411 - Fournisseurs</option>
-                            <option value="4456">4456 - État - TVA facturée</option>
-                            <option value="5141">5141 - Banque</option>
-                            <option value="5161">5161 - Caisse</option>
-                            <option value="6111">6111 - Achats de marchandises</option>
-                            <option value="6145">6145 - Frais postaux et télécoms</option>
-                            <option value="6193">6193 - Dotations aux amort. des immobilisations</option>
-                            <option value="7111">7111 - Ventes de marchandises</option>
+                            <!-- Options remplies dynamiquement par JS -->
                         </select>
                     </div>
                     <div>
@@ -209,7 +195,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Taux d'amortissement (%)</label>
-                        <input type="number" step="0.1" id="amrt-taux" placeholder="Ex: 20 (pour 5 ans)" required class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
+                        <input type="number" step="0.1" id="amrt-taux" placeholder="Ex: 20" required class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Date / Référence</label>
@@ -219,7 +205,6 @@
                         <button type="submit" class="w-full bg-gold text-navy font-bold py-2 rounded text-sm hover:bg-amber-500 transition">Comptabiliser Dotation</button>
                     </div>
                 </form>
-                <p class="text-xs text-slate-400">Cette action génère automatiquement l'écriture au journal : Débit du compte <strong>6193 (Dotations aux amortissements)</strong> et Crédit du compte <strong>28xx (Amortissements des immobilisations)</strong>.</p>
             </div>
         </section>
 
@@ -238,7 +223,7 @@
                     </div>
                 </div>
                 <div class="bg-slate-900/50 p-4 rounded border border-slate-700 flex justify-between items-center">
-                    <p class="text-xs text-slate-400">Écart constaté (Comptabilité vs Relevé)</p>
+                    <p class="text-xs text-slate-400">Écart constaté</p>
                     <h4 id="bank-ecart" class="text-xl font-bold text-emerald-400">0.00 DH</h4>
                 </div>
             </div>
@@ -268,7 +253,6 @@
         <!-- 8. BILAN -->
         <section id="tab-bilan" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Actif -->
                 <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                     <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">BILAN - ACTIF</h3>
                     <table class="w-full text-sm">
@@ -277,7 +261,6 @@
                         <tfoot><tr class="font-bold border-t border-slate-700 bg-slate-900/40"><td class="p-3">Total Actif</td><td id="total-actif" class="p-3 text-right text-gold">0.00</td></tr></tfoot>
                     </table>
                 </div>
-                <!-- Passif -->
                 <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                     <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">BILAN - PASSIF</h3>
                     <table class="w-full text-sm">
@@ -305,25 +288,80 @@
 
     <!-- Script Métier -->
     <script>
+        // Dictionnaire étendu du Plan Comptable Marocain (CGNC)
         const accountNames = {
+            // Classe 1 : Financement Permanent
             "1111": "Capital social",
+            "1140": "Réserves légales",
+            "1181": "Résultats net en instance d'affectation",
+            "1191": "Résultat net de l'exercice (bénéfice)",
+            "1199": "Résultat net de l'exercice (perte)",
+            "1481": "Emprunts auprès des établissements de crédit",
+            
+            // Classe 2 : Actif Immobilisé
             "2110": "Frais préliminaires",
+            "2210": "Immobilisations en recherche et développement",
+            "2321": "Bâtiments",
+            "2340": "Matériel de transport",
+            "2351": "Mobilier de bureau",
             "2355": "Matériel informatique",
-            "2835": "Amort. du matériel informatique",
+            "2811": "Amortissements des frais préliminaires",
+            "2832": "Amortissements des bâtiments",
+            "2834": "Amortissements du matériel de transport",
+            "2835": "Amortissements du matériel informatique",
+
+            // Classe 3 : Actif Circulant (hors trésorerie)
             "3111": "Marchandises",
+            "3121": "Matières premières et fournitures",
             "3421": "Clients",
-            "3455": "État - TVA récupérable",
+            "3425": "Clients - créances douteuses ou litigieuses",
+            "3455": "État - TVA récupérable sur charges",
+            "3456": "État - TVA récupérable sur immobilisations",
+            "3481": "Créances sur cessions d'immobilisations",
+
+            // Classe 4 : Passif Circulant (hors trésorerie)
             "4411": "Fournisseurs",
+            "4421": "Clients - avances et acomptes",
+            "4452": "État - impôts, taxes et assimilés",
             "4456": "État - TVA facturée",
-            "5141": "Banque",
+            "4481": "Dettes sur acquisitions d'immobilisations",
+
+            // Classe 5 : Trésorerie
+            "5141": "Banque (solde débiteur)",
             "5161": "Caisse",
+            "5520": "Crédits d'escompte et de trésorerie (banque solde créditeur)",
+
+            // Classe 6 : Charges
             "6111": "Achats de marchandises",
+            "6121": "Achats matiere premieres et fournitures",
+            "6131": "Locations et charges locatives",
+            "6142": "Transports",
             "6145": "Frais postaux et télécoms",
-            "6193": "Dotations amort. immobilisations",
-            "7111": "Ventes de marchandises"
+            "6161": "Impôts et taxes",
+            "6171": "Rémunérations du personnel",
+            "6193": "Dotations aux amort. des immobilisations",
+
+            // Classe 7 : Produits
+            "7111": "Ventes de marchandises",
+            "7121": "Ventes de biens et services produits",
+            "7127": "Ventes produits accessoires",
+            "7182": "Revenus des immeubles non affectés",
+            "7381": "Intérêts et produits assimilés"
         };
 
         let entries = JSON.parse(localStorage.getItem('compta_entries')) || [];
+
+        function initAccountSelect() {
+            const select = document.getElementById('entry-account');
+            select.innerHTML = '';
+            let keys = Object.keys(accountNames).sort();
+            keys.forEach(acc => {
+                let opt = document.createElement('option');
+                opt.value = acc;
+                opt.innerText = `${acc} - ${accountNames[acc]}`;
+                select.appendChild(opt);
+            });
+        }
 
         function switchTab(tabId) {
             document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
@@ -367,11 +405,10 @@
             const dotation = val * (taux / 100);
             const date = new Date().toISOString().split('T')[0];
 
-            // Écriture d'amortissement : Débit 6193 / Crédit 2835 (ou approchant)
             entries.push({ id: Date.now(), date, ref, account: '6193', type: 'debit', amount: dotation });
             entries.push({ id: Date.now() + 1, date, ref, account: '2835', type: 'credit', amount: dotation });
             saveAndRefresh();
-            alert(`Dotation aux amortissements de ${dotation.toFixed(2)} DH comptabilisée avec succès !`);
+            alert(`Dotation aux amortissements de ${dotation.toFixed(2)} DH comptabilisée !`);
             document.getElementById('amrt-form').reset();
         }
 
@@ -511,7 +548,7 @@
         function renderTVA() {
             const balances = getAccountBalances();
             let tvaCollectee = balances['4456'] ? (balances['4456'].credit - balances['4456'].debit) : 0;
-            let tvaRecuperable = balances['3455'] ? (balances['3455'].debit - balances['3455'].credit) : 0;
+            let tvaRecuperable = (balances['3455'] ? (balances['3455'].debit - balances['3455'].credit) : 0) + (balances['3456'] ? (balances['3456'].debit - balances['3456'].credit) : 0);
             let tvaDue = tvaCollectee - tvaRecuperable;
             document.getElementById('tva-collectee').innerText = tvaCollectee.toFixed(2) + ' DH';
             document.getElementById('tva-recuperable').innerText = tvaRecuperable.toFixed(2) + ' DH';
@@ -525,14 +562,12 @@
 
             for (let acc in balances) {
                 let d = balances[acc].debit, c = balances[acc].credit, solde = d - c;
-                // Actif : Classe 2 (sauf comptes d'amortissement qui viennent en déduction ou passif) & Classe 3 & Classe 5 (solde débiteur)
                 if ((acc.startsWith('2') && !acc.startsWith('28')) || acc.startsWith('3') || (acc.startsWith('5') && solde > 0)) {
                     if (solde > 0) {
                         actifTotal += solde;
                         actifHTML += `<tr class="hover:bg-slate-700/30"><td class="p-3 text-slate-300">${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right text-slate-300">${solde.toFixed(2)}</td></tr>`;
                     }
                 }
-                // Amortissements (comptes 28...) : viennent en déduction de l'actif ou au passif selon les normes, ici en diminution d'actif
                 if (acc.startsWith('28')) {
                     let amrtSolde = c - d;
                     if (amrtSolde > 0) {
@@ -540,7 +575,6 @@
                         actifHTML += `<tr class="hover:bg-slate-700/30 text-rose-400"><td class="p-3">${acc} - ${accountNames[acc]||''}</td><td class="p-3 text-right">-${amrtSolde.toFixed(2)}</td></tr>`;
                     }
                 }
-                // Passif : Classe 1 & Classe 4 & Amortissements / Trésorerie passive
                 if (acc.startsWith('1') || acc.startsWith('4') || (acc.startsWith('5') && c > d)) {
                     let pSolde = c - d;
                     if (pSolde > 0) {
@@ -607,17 +641,17 @@
 
         function loadSampleData() {
             entries = [
-                { id: 1, date: '2026-01-02', ref: 'AP01', account: '1111', type: 'credit', amount: 100000 },
-                { id: 2, date: '2026-01-02', ref: 'AP01', account: '5141', type: 'debit', amount: 100000 },
-                { id: 3, date: '2026-01-05', ref: 'FA01', account: '6111', type: 'debit', amount: 25000 },
-                { id: 4, date: '2026-01-05', ref: 'FA01', account: '3455', type: 'debit', amount: 5000 },
-                { id: 5, date: '2026-01-05', ref: 'FA01', account: '4411', type: 'credit', amount: 30000 },
-                { id: 6, date: '2026-01-10', ref: 'BL02', account: '3421', type: 'debit', amount: 57600 },
-                { id: 7, date: '2026-01-10', ref: 'BL02', account: '7111', type: 'credit', amount: 48000 },
-                { id: 8, date: '2026-01-10', ref: 'BL02', account: '4456', type: 'credit', amount: 9600 }
+                { id: 1, date: '2026-01-02', ref: 'AP01', account: '1111', type: 'credit', amount: 150000 },
+                { id: 2, date: '2026-01-02', ref: 'AP01', account: '5141', type: 'debit', amount: 150000 },
+                { id: 3, date: '2026-01-05', ref: 'FA01', account: '6111', type: 'debit', amount: 30000 },
+                { id: 4, date: '2026-01-05', ref: 'FA01', account: '3455', type: 'debit', amount: 6000 },
+                { id: 5, date: '2026-01-05', ref: 'FA01', account: '4411', type: 'credit', amount: 36000 },
+                { id: 6, date: '2026-01-10', ref: 'BL02', account: '3421', type: 'debit', amount: 72000 },
+                { id: 7, date: '2026-01-10', ref: 'BL02', account: '7111', type: 'credit', amount: 60000 },
+                { id: 8, date: '2026-01-10', ref: 'BL02', account: '4456', type: 'credit', amount: 12000 }
             ];
             saveAndRefresh();
-            alert('Exemple PME chargé !');
+            alert('Exemple étendu chargé !');
         }
 
         function resetData() {
@@ -642,6 +676,8 @@
             document.body.removeChild(link);
         }
 
+        // Initialisation au chargement de la page
+        initAccountSelect();
         document.getElementById('entry-date').valueAsDate = new Date();
         renderJournal();
     </script>
