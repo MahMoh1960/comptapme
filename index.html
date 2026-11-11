@@ -6,6 +6,10 @@
     <title>ComptaMaroc PWA - Gestion Comptable PME</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1b2a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="ComptaMaroc">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .bg-navy { background-color: #0d1b2a; }
@@ -113,7 +117,7 @@
                 </div>
                 <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
                     <li><strong>Fonds de Roulement (FR) :</strong> Excédent des ressources stables sur les emplois stables. S'il est positif, il sécurise le financement du cycle d'exploitation.</li>
-                    <li><strong>Besoin en Fonds de Roulement (BFR) :</strong> Besoin financier né du décalage entre les flux d'achats/ventes et les décaissements/encaissments.</li>
+                    <li><strong>Besoin en Fonds de Roulement (BFR) :</strong> Besoin financier né du décalage entre les flux d'achats/ventes et les décaissements/encaissements.</li>
                     <li><strong>Trésorerie Nette (TN) :</strong> Solde net de la structure (FR - BFR). Positif, il indique un excédent de liquidités disponible.</li>
                     <li><strong>Liquidité Générale :</strong> Actif circulant / Passif circulant. Idéalement supérieur à 1 pour faire face aux dettes à court terme.</li>
                     <li><strong>Autonomie Financière :</strong> Capitaux propres / Total Passif. Indique le degré d'indépendance de la PME vis-à-vis des banques et créanciers.</li>
@@ -280,7 +284,7 @@
             </div>
         </section>
 
-        <!-- 6. RAPPROCHEMENT -->
+        <!-- 6. Rapprochement -->
         <section id="tab-rapprochement" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 space-y-6">
                 <h3 class="text-base font-bold text-gold border-b border-slate-700 pb-2">État de Rapprochement Bancaire (Compte 5141)</h3>
