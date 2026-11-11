@@ -50,7 +50,7 @@
     <!-- Contenu Principal -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
 
-        <!-- 1. TABLEAU DE BORD -->
+        <!-- 1. TABLEAU DE BORD & RATIOS -->
         <section id="tab-dashboard" class="space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-slate-800 p-4 rounded-xl shadow border-l-4 border-blue-500">
@@ -71,10 +71,41 @@
                 </div>
             </div>
 
+            <!-- Module Ratios et Indicateurs de Santé -->
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 space-y-4">
+                <h4 class="text-base font-bold text-gold border-b border-slate-700 pb-2">📈 Indicateurs clés & Ratios de Santé Financière</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Fonds de Roulement (FR)</p>
+                        <h3 id="ratio-fr" class="text-lg font-bold text-white mt-1">0.00 DH</h3>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Besoin en Fonds de Roulement (BFR)</p>
+                        <h3 id="ratio-bfr" class="text-lg font-bold text-white mt-1">0.00 DH</h3>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Trésorerie Nette (TN = FR - BFR)</p>
+                        <h3 id="ratio-tn" class="text-lg font-bold text-emerald-400 mt-1">0.00 DH</h3>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Ratio de Liquidité Générale</p>
+                        <h3 id="ratio-liq" class="text-lg font-bold text-blue-400 mt-1">0.00</h3>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Autonomie Financière</p>
+                        <h3 id="ratio-autonomie" class="text-lg font-bold text-amber-400 mt-1">0.00 %</h3>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Résultat Net de l'Exercice</p>
+                        <h3 id="ratio-resultat" class="text-lg font-bold text-white mt-1">0.00 DH</h3>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h4 class="text-base font-bold mb-2 text-gold">Plan Comptable Marocain Étendu</h4>
-                    <p class="text-sm text-slate-300 leading-relaxed">Toutes les classes (1 à 7) sont désormais disponibles pour saisir vos opérations courantes et d'inventaire.</p>
+                    <h4 class="text-base font-bold mb-2 text-gold">Actions & Exportations</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">Gérez votre comptabilité et imprimez vos rapports complets incluant l'analyse financière.</p>
                 </div>
                 <div class="flex flex-wrap gap-3">
                     <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-500 text-xs font-semibold transition">📄 Imprimer / Exporter PDF</button>
@@ -99,9 +130,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Compte (PCM)</label>
-                        <select id="entry-account" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
-                            <!-- Options remplies dynamiquement par JS -->
-                        </select>
+                        <select id="entry-account" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white"></select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Sens</label>
@@ -138,7 +167,7 @@
             </div>
         </section>
 
-        <!-- 3. BALANCE DES COMPTES -->
+        <!-- 3. BALANCE -->
         <section id="tab-balance" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 overflow-x-auto">
                 <div class="flex justify-between items-center mb-4">
@@ -208,7 +237,7 @@
             </div>
         </section>
 
-        <!-- 6. RAPPROCHEMENT BANCAIRE -->
+        <!-- 6. RAPPROCHEMENT -->
         <section id="tab-rapprochement" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700 space-y-6">
                 <h3 class="text-base font-bold text-gold border-b border-slate-700 pb-2">État de Rapprochement Bancaire (Compte 5141)</h3>
@@ -229,7 +258,7 @@
             </div>
         </section>
 
-        <!-- 7. DÉCLARATION TVA -->
+        <!-- 7. TVA -->
         <section id="tab-tva" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">État de Calcul de la TVA (Maroc)</h3>
@@ -239,7 +268,7 @@
                         <h4 id="tva-collectee" class="text-xl font-bold text-emerald-400 mt-1">0.00 DH</h4>
                     </div>
                     <div class="bg-slate-900 p-4 rounded border border-slate-700">
-                        <p class="text-xs text-slate-400">TVA Récupérable (3455)</p>
+                        <p class="text-xs text-slate-400">TVA Récupérable (3455/3456)</p>
                         <h4 id="tva-recuperable" class="text-xl font-bold text-blue-400 mt-1">0.00 DH</h4>
                     </div>
                     <div class="bg-slate-900 p-4 rounded border border-slate-700">
@@ -288,65 +317,22 @@
 
     <!-- Script Métier -->
     <script>
-        // Dictionnaire étendu du Plan Comptable Marocain (CGNC)
         const accountNames = {
-            // Classe 1 : Financement Permanent
-            "1111": "Capital social",
-            "1140": "Réserves légales",
-            "1181": "Résultats net en instance d'affectation",
-            "1191": "Résultat net de l'exercice (bénéfice)",
-            "1199": "Résultat net de l'exercice (perte)",
-            "1481": "Emprunts auprès des établissements de crédit",
-            
-            // Classe 2 : Actif Immobilisé
-            "2110": "Frais préliminaires",
-            "2210": "Immobilisations en recherche et développement",
-            "2321": "Bâtiments",
-            "2340": "Matériel de transport",
-            "2351": "Mobilier de bureau",
-            "2355": "Matériel informatique",
-            "2811": "Amortissements des frais préliminaires",
-            "2832": "Amortissements des bâtiments",
-            "2834": "Amortissements du matériel de transport",
-            "2835": "Amortissements du matériel informatique",
-
-            // Classe 3 : Actif Circulant (hors trésorerie)
-            "3111": "Marchandises",
-            "3121": "Matières premières et fournitures",
-            "3421": "Clients",
-            "3425": "Clients - créances douteuses ou litigieuses",
-            "3455": "État - TVA récupérable sur charges",
-            "3456": "État - TVA récupérable sur immobilisations",
-            "3481": "Créances sur cessions d'immobilisations",
-
-            // Classe 4 : Passif Circulant (hors trésorerie)
-            "4411": "Fournisseurs",
-            "4421": "Clients - avances et acomptes",
-            "4452": "État - impôts, taxes et assimilés",
-            "4456": "État - TVA facturée",
-            "4481": "Dettes sur acquisitions d'immobilisations",
-
-            // Classe 5 : Trésorerie
-            "5141": "Banque (solde débiteur)",
-            "5161": "Caisse",
-            "5520": "Crédits d'escompte et de trésorerie (banque solde créditeur)",
-
-            // Classe 6 : Charges
-            "6111": "Achats de marchandises",
-            "6121": "Achats matiere premieres et fournitures",
-            "6131": "Locations et charges locatives",
-            "6142": "Transports",
-            "6145": "Frais postaux et télécoms",
-            "6161": "Impôts et taxes",
-            "6171": "Rémunérations du personnel",
-            "6193": "Dotations aux amort. des immobilisations",
-
-            // Classe 7 : Produits
-            "7111": "Ventes de marchandises",
-            "7121": "Ventes de biens et services produits",
-            "7127": "Ventes produits accessoires",
-            "7182": "Revenus des immeubles non affectés",
-            "7381": "Intérêts et produits assimilés"
+            "1111": "Capital social", "1140": "Réserves légales", "1181": "Résultats net en instance d'affectation",
+            "1191": "Résultat net (bénéfice)", "1199": "Résultat net (perte)", "1481": "Emprunts auprès des établissements de crédit",
+            "2110": "Frais préliminaires", "2210": "Immobilisations en R&D", "2321": "Bâtiments",
+            "2340": "Matériel de transport", "2351": "Mobilier de bureau", "2355": "Matériel informatique",
+            "2811": "Amort. frais préliminaires", "2832": "Amort. bâtiments", "2834": "Amort. matériel transport", "2835": "Amort. matériel informatique",
+            "3111": "Marchandises", "3121": "Matières premières", "3421": "Clients", "3425": "Clients douteux",
+            "3455": "État - TVA récupérable charges", "3456": "État - TVA récupérable immobilisations", "3481": "Créances cessions immobilisations",
+            "4411": "Fournisseurs", "4421": "Clients - avances et acomptes", "4452": "État - impôts et taxes",
+            "4456": "État - TVA facturée", "4481": "Dettes acquisitions immobilisations",
+            "5141": "Banque", "5161": "Caisse", "5520": "Crédits de trésorerie",
+            "6111": "Achats de marchandises", "6121": "Achats matières premières", "6131": "Locations",
+            "6142": "Transports", "6145": "Frais postaux et télécoms", "6161": "Impôts et taxes",
+            "6171": "Rémunérations du personnel", "6193": "Dotations amortissements",
+            "7111": "Ventes de marchandises", "7121": "Ventes de biens et services", "7127": "Produits accessoires",
+            "7182": "Revenus immeubles", "7381": "Intérêts et produits assimilés"
         };
 
         let entries = JSON.parse(localStorage.getItem('compta_entries')) || [];
@@ -354,8 +340,7 @@
         function initAccountSelect() {
             const select = document.getElementById('entry-account');
             select.innerHTML = '';
-            let keys = Object.keys(accountNames).sort();
-            keys.forEach(acc => {
+            Object.keys(accountNames).sort().forEach(acc => {
                 let opt = document.createElement('option');
                 opt.value = acc;
                 opt.innerText = `${acc} - ${accountNames[acc]}`;
@@ -374,13 +359,13 @@
             event.target.classList.add('bg-gold', 'text-navy');
             event.target.classList.remove('text-slate-300', 'hover:bg-slate-800');
 
+            if (tabId === 'dashboard') updateDashboard();
             if (tabId === 'balance') renderBalance();
             if (tabId === 'grandlivre') initGrandLivreSelect();
             if (tabId === 'rapprochement') renderRapprochement();
             if (tabId === 'tva') renderTVA();
             if (tabId === 'bilan') renderBilan();
             if (tabId === 'cpc') renderCPC();
-            updateDashboard();
         }
 
         function addEntry(e) {
@@ -455,6 +440,68 @@
             return balances;
         }
 
+        function updateDashboard() {
+            let totDebit = 0, totCredit = 0, totProd = 0, totChg = 0;
+            entries.forEach(i => {
+                if (i.type === 'debit') totDebit += i.amount;
+                if (i.type === 'credit') totCredit += i.amount;
+                if (i.account.startsWith('6')) totChg += i.amount;
+                if (i.account.startsWith('7')) totProd += i.amount;
+            });
+            document.getElementById('stat-debit').innerText = totDebit.toFixed(2) + ' DH';
+            document.getElementById('stat-credit').innerText = totCredit.toFixed(2) + ' DH';
+            document.getElementById('stat-produits').innerText = totProd.toFixed(2) + ' DH';
+            document.getElementById('stat-charges').innerText = totChg.toFixed(2) + ' DH';
+
+            // Calcul des indicateurs financiers (FR, BFR, TN, Liquidité, Autonomie)
+            const balances = getAccountBalances();
+            let finPerm = 0, actImmo = 0, actCirc = 0, passCirc = 0, capitauxPropres = 0, totalPassif = 0;
+
+            for (let acc in balances) {
+                let d = balances[acc].debit, c = balances[acc].credit, solde = d - c;
+                if (acc.startsWith('1')) {
+                    let pSolde = c - d;
+                    finPerm += pSolde;
+                    totalPassif += pSolde;
+                    if (acc.startsWith('11')) capitauxPropres += pSolde;
+                }
+                if ((acc.startsWith('2') && !acc.startsWith('28'))) {
+                    actImmo += solde;
+                }
+                if (acc.startsWith('28')) {
+                    actImmo -= (c - d); // Déduction des amortissements
+                }
+                if (acc.startsWith('3')) {
+                    actCirc += solde;
+                }
+                if (acc.startsWith('4')) {
+                    let pSolde = c - d;
+                    passCirc += pSolde;
+                    totalPassif += pSolde;
+                }
+            }
+
+            // Ajout Résultat Net dans capitaux propres et passif
+            let resultatNet = totProd - totChg;
+            capitauxPropres += resultatNet;
+            totalPassif += resultatNet;
+
+            let fr = finPerm - actImmo;
+            let bfr = actCirc - passCirc;
+            let tn = fr - bfr;
+            let liqGen = passCirc > 0 ? (actCirc / passCirc) : 0;
+            let autonomie = totalPassif > 0 ? (capitauxPropres / totalPassif) * 100 : 0;
+
+            document.getElementById('ratio-fr').innerText = fr.toFixed(2) + ' DH';
+            document.getElementById('ratio-bfr').innerText = bfr.toFixed(2) + ' DH';
+            document.getElementById('ratio-tn').innerText = tn.toFixed(2) + ' DH';
+            document.getElementById('ratio-tn').className = `text-lg font-bold mt-1 ${tn >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+            document.getElementById('ratio-liq').innerText = liqGen.toFixed(2);
+            document.getElementById('ratio-autonomie').innerText = autonomie.toFixed(1) + ' %';
+            document.getElementById('ratio-resultat').innerText = resultatNet.toFixed(2) + ' DH';
+            document.getElementById('ratio-resultat').className = `text-lg font-bold mt-1 ${resultatNet >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+        }
+
         function renderBalance() {
             const balances = getAccountBalances();
             const tbody = document.getElementById('balance-table-body');
@@ -465,8 +512,7 @@
                 return;
             }
             keys.forEach(acc => {
-                let d = balances[acc].debit;
-                let c = balances[acc].credit;
+                let d = balances[acc].debit, c = balances[acc].credit;
                 let soldeDeb = d > c ? (d - c).toFixed(2) : '0.00';
                 let soldeCred = c > d ? (c - d).toFixed(2) : '0.00';
 
@@ -625,20 +671,6 @@
             resEl.className = `p-3 text-right ${net >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
         }
 
-        function updateDashboard() {
-            let totDebit = 0, totCredit = 0, totProd = 0, totChg = 0;
-            entries.forEach(i => {
-                if (i.type === 'debit') totDebit += i.amount;
-                if (i.type === 'credit') totCredit += i.amount;
-                if (i.account.startsWith('6')) totChg += i.amount;
-                if (i.account.startsWith('7')) totProd += i.amount;
-            });
-            document.getElementById('stat-debit').innerText = totDebit.toFixed(2) + ' DH';
-            document.getElementById('stat-credit').innerText = totCredit.toFixed(2) + ' DH';
-            document.getElementById('stat-produits').innerText = totProd.toFixed(2) + ' DH';
-            document.getElementById('stat-charges').innerText = totChg.toFixed(2) + ' DH';
-        }
-
         function loadSampleData() {
             entries = [
                 { id: 1, date: '2026-01-02', ref: 'AP01', account: '1111', type: 'credit', amount: 150000 },
@@ -651,7 +683,7 @@
                 { id: 8, date: '2026-01-10', ref: 'BL02', account: '4456', type: 'credit', amount: 12000 }
             ];
             saveAndRefresh();
-            alert('Exemple étendu chargé !');
+            alert('Exemple chargé avec succès !');
         }
 
         function resetData() {
@@ -676,10 +708,10 @@
             document.body.removeChild(link);
         }
 
-        // Initialisation au chargement de la page
         initAccountSelect();
         document.getElementById('entry-date').valueAsDate = new Date();
         renderJournal();
+        updateDashboard();
     </script>
 </body>
 </html>
