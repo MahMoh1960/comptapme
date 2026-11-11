@@ -11,7 +11,6 @@
         .bg-navy { background-color: #0d1b2a; }
         .text-gold { color: #e0a96d; }
         .border-gold { border-color: #e0a96d; }
-        /* Masquer la barre de défilement pour un design plus propre sur mobile */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -27,11 +26,12 @@
                 </div>
                 <span class="text-[10px] bg-gold/20 text-gold border border-gold/40 px-2 py-0.5 rounded font-semibold">PCM Maroc</span>
             </div>
-            <!-- Navigation optimisée avec scroll horizontal sur mobile -->
+            <!-- Navigation optimisée avec scroll horizontal -->
             <nav class="flex space-x-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
                 <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium bg-gold text-navy whitespace-nowrap transition">Tableau de bord</button>
                 <button onclick="switchTab('journal')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Journal</button>
                 <button onclick="switchTab('balance')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Balance</button>
+                <button onclick="switchTab('tva')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Déclaration TVA</button>
                 <button onclick="switchTab('bilan')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">Bilan</button>
                 <button onclick="switchTab('cpc')" class="tab-btn px-3 py-1.5 rounded text-xs md:text-sm font-medium text-slate-300 hover:bg-slate-800 whitespace-nowrap transition">CPC</button>
             </nav>
@@ -64,7 +64,7 @@
 
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h4 class="text-base font-bold mb-2 text-gold">Synthèse de Gestion & États Financiers</h4>
-                <p class="text-sm text-slate-300 mb-4 leading-relaxed">Application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour alimenter automatiquement la balance, le bilan et le CPC.</p>
+                <p class="text-sm text-slate-300 mb-4 leading-relaxed">Application de comptabilité générale conforme aux normes du CGNC (Maroc). Saisissez vos écritures dans l'onglet <strong>Journal</strong> pour alimenter automatiquement la balance, la TVA, le bilan et le CPC.</p>
                 <div class="flex flex-wrap gap-3">
                     <button onclick="loadSampleData()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-600 text-xs font-semibold transition">Charger un exemple PME</button>
                     <button onclick="resetData()" class="bg-rose-900/60 text-rose-200 border border-rose-700 px-4 py-2 rounded shadow hover:bg-rose-800 text-xs font-semibold transition">Réinitialiser</button>
@@ -88,13 +88,15 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-400 mb-1">Compte (PCM)</label>
                         <select id="entry-account" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-sm text-white">
+                            <option value="1111">1111 - Capital social</option>
                             <option value="2110">2110 - Frais préliminaires</option>
                             <option value="3111">3111 - Marchandises</option>
                             <option value="3421">3421 - Clients</option>
+                            <option value="3455">3455 - État - TVA récupérable</option>
+                            <option value="4411">4411 - Fournisseurs</option>
+                            <option value="4456">4456 - État - TVA facturée</option>
                             <option value="5141">5141 - Banque</option>
                             <option value="5161">5161 - Caisse</option>
-                            <option value="1111">1111 - Capital social</option>
-                            <option value="4411">4411 - Fournisseurs</option>
                             <option value="6111">6111 - Achats de marchandises</option>
                             <option value="6145">6145 - Frais postaux et télécoms</option>
                             <option value="7111">7111 - Ventes de marchandises</option>
@@ -158,7 +160,29 @@
             </div>
         </section>
 
-        <!-- 4. BILAN -->
+        <!-- 4. DÉCLARATION TVA -->
+        <section id="tab-tva" class="hidden space-y-6">
+            <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
+                <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">État de Calcul de la TVA (Maroc)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">TVA Facturée (Collectée - Compte 4456)</p>
+                        <h4 id="tva-collectee" class="text-xl font-bold text-emerald-400 mt-1">0.00 DH</h4>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">TVA Récupérable (Sur charges/Immos - Compte 3455)</p>
+                        <h4 id="tva-recuperable" class="text-xl font-bold text-blue-400 mt-1">0.00 DH</h4>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700">
+                        <p class="text-xs text-slate-400">Situation TVA (À payer / Crédit)</p>
+                        <h4 id="tva-due" class="text-xl font-bold text-amber-400 mt-1">0.00 DH</h4>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">Note : La TVA due est calculée automatiquement par la différence entre la TVA facturée sur vos ventes et la TVA récupérable sur vos achats. Si le montant est positif, il s'agit d'une TVA due au Trésor Public.</p>
+            </div>
+        </section>
+
+        <!-- 5. BILAN -->
         <section id="tab-bilan" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Actif -->
@@ -202,7 +226,7 @@
             </div>
         </section>
 
-        <!-- 5. CPC -->
+        <!-- 6. CPC -->
         <section id="tab-cpc" class="hidden space-y-6">
             <div class="bg-slate-800 p-6 rounded-xl shadow border border-slate-700">
                 <h3 class="text-base font-bold mb-4 text-gold border-b border-slate-700 pb-2">Compte de Produits et Charges (CPC)</h3>
@@ -233,7 +257,9 @@
             "2110": "Frais préliminaires",
             "3111": "Marchandises",
             "3421": "Clients",
+            "3455": "État - TVA récupérable",
             "4411": "Fournisseurs",
+            "4456": "État - TVA facturée",
             "5141": "Banque",
             "5161": "Caisse",
             "6111": "Achats de marchandises",
@@ -255,6 +281,7 @@
             event.target.classList.remove('text-slate-300', 'hover:bg-slate-800');
 
             if (tabId === 'balance') renderBalance();
+            if (tabId === 'tva') renderTVA();
             if (tabId === 'bilan') renderBilan();
             if (tabId === 'cpc') renderCPC();
             updateDashboard();
@@ -348,6 +375,28 @@
             });
         }
 
+        function renderTVA() {
+            const balances = getAccountBalances();
+            let tvaCollectee = 0;
+            let tvaRecuperable = 0;
+
+            if (balances['4456']) {
+                tvaCollectee = balances['4456'].credit - balances['4456'].debit;
+            }
+            if (balances['3455']) {
+                tvaRecuperable = balances['3455'].debit - balances['3455'].credit;
+            }
+
+            let tvaDue = tvaCollectee - tvaRecuperable;
+
+            document.getElementById('tva-collectee').innerText = tvaCollectee.toFixed(2) + ' DH';
+            document.getElementById('tva-recuperable').innerText = tvaRecuperable.toFixed(2) + ' DH';
+            
+            const dueEl = document.getElementById('tva-due');
+            dueEl.innerText = tvaDue.toFixed(2) + ' DH ' + (tvaDue >= 0 ? '(À payer)' : '(Crédit de TVA)');
+            dueEl.className = `text-xl font-bold mt-1 ${tvaDue >= 0 ? 'text-amber-400' : 'text-blue-400'}`;
+        }
+
         function renderBilan() {
             const balances = getAccountBalances();
             let actifTotal = 0;
@@ -438,12 +487,14 @@
                 { id: 1, date: '2026-01-02', ref: 'AP01', account: '1111', type: 'credit', amount: 100000 },
                 { id: 2, date: '2026-01-02', ref: 'AP01', account: '5141', type: 'debit', amount: 100000 },
                 { id: 3, date: '2026-01-05', ref: 'FA01', account: '6111', type: 'debit', amount: 25000 },
-                { id: 4, date: '2026-01-05', ref: 'FA01', account: '4411', type: 'credit', amount: 25000 },
-                { id: 5, date: '2026-01-10', ref: 'BL02', account: '3421', type: 'debit', amount: 48000 },
-                { id: 6, date: '2026-01-10', ref: 'BL02', account: '7111', type: 'credit', amount: 48000 }
+                { id: 4, date: '2026-01-05', ref: 'FA01', account: '3455', type: 'debit', amount: 5000 },
+                { id: 5, date: '2026-01-05', ref: 'FA01', account: '4411', type: 'credit', amount: 30000 },
+                { id: 6, date: '2026-01-10', ref: 'BL02', account: '3421', type: 'debit', amount: 57600 },
+                { id: 7, date: '2026-01-10', ref: 'BL02', account: '7111', type: 'credit', amount: 48000 },
+                { id: 8, date: '2026-01-10', ref: 'BL02', account: '4456', type: 'credit', amount: 9600 }
             ];
             saveAndRefresh();
-            alert('Exemple PME chargé avec succès !');
+            alert('Exemple PME avec TVA chargé avec succès !');
         }
 
         function resetData() {
